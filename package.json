@@ -1,0 +1,23 @@
+{
+  "name": "weatherapp",
+  "version": "1.0.0",
+  "description": "web application to display weather info.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feelingboredexe/weatherApp.git"
+  },
+  "author": "feelingboredexe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/feelingboredexe/weatherApp/issues"
+  },
+  "homepage": "https://github.com/feelingboredexe/weatherApp#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "unirest": "^0.6.0"
+  }
+}

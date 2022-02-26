@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>My Weather App</title>
+        <!-- javascript encapsulated in <script> tag -->
+        <script type="text/javascript">
+            function getLocation() {
+                console.log("Getting location...");
+                if (navigator.geolocation) {
+                    // navigator is a tool provided by browsers that allows JavaScript to request and get a user's location, this line checks if the browser supports navigator functionality
+                    navigator.geolocation.getCurrentPosition(getWeather, weatherError, {
+                        timeout: 10000
+                    }); // get the user's geolocation and then pass it to the getWeather function, if it errors, we'll handle the error with the weatherError function
+                } else {
+                    document.getElementById("weather").innerHTML =
+                        "<h1>Your browser doesn't support geolocation!<h2>"; // inform the user that their browser does not support geolocation
+                }
+            }
+
+            function getWeather(position) {
+                var coords = position.coords;
+                console.log(coords);
+
+                var request = new XMLHttpRequest();
+                request.addEventListener("load", onloadhandler); // once the response loads, handle it with our onloadhandler function
+
+                function onloadhandler() {
+                    console.log('loading')
+                    var { summary, chanceOfRain, temp, wind } = JSON.parse(
+                        this.responseText
+                    ); // again, use destructuring to pull out the values we need
+                    document.getElementById(
+                        "weather"
+                    ).innerHTML = `<h1>The Weather Is ${summary} (${temp}ºF)</h1> <p>Chance of rain: ${chanceOfRain}%</p><strong>Wind</strong><p>Speed: ${wind.speed} ${wind.bearing}</p>`; // get the element called weather and set its HTML content to this string with the values from our request
+                };
+
+                request.open(
+                    "GET",
+                    `https://localhost:3000/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+                );
+                request.send();
+            }
+
+            function weatherError(error) {
+                console.error(error); // log the error to the console
+            }
+        </script>
+    </head>
+
+    <body onload="getLocation()">
+        <!-- when our page loads, run the javascript -->
+        <div id="weather">
+            Loading the weather
+            <!-- placeholder until our data loads -->
+        </div>
+    </body>
+
+</html>
